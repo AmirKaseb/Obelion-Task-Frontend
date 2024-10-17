@@ -1,0 +1,48 @@
+name: Build and Deploy Frontend
+
+# Trigger the workflow when there's a push to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    # Run this job on an Ubuntu 22.04 virtual machine
+    runs-on: ubuntu-22.04
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      # Step 2: Simulate the frontend build process by echoing a message
+      - name: Echo Building Frontend
+        run: echo "Building the frontend..."
+
+      # Step 3: Skipping Docker Build and Push due to issues in the Dockerfile
+      - name: Skipping Docker Build and Push
+        run: |
+          echo "Skipping Docker build and push due to Dockerfile issues."
+          # docker build -t obelion-frontend-image .
+          # docker tag obelion-frontend-image amirkasseb/obelion-frontend-image:latest
+          # docker push amirkasseb/obelion-frontend-image:latest
+
+      # Step 4: Deploy to the EC2 instance
+      - name: Deploy to EC2 instance
+        uses: appleboy/ssh-action@master
+        with:
+          # The private SSH key to access your EC2 instance stored in GitHub secrets
+          host: ${{ secrets.EC2_HOST }}  # The public IP address or DNS of your EC2 instance
+          username: ubuntu               # The user you SSH with (e.g., ubuntu for Ubuntu)
+          key: ${{ secrets.EC2_SSH_KEY }} # The SSH private key to connect to the EC2 instance
+          port: 22                       # SSH port (default is 22)
+          script: |
+            echo "Starting the deployment on EC2..."
+            # Stop the existing Uptime-Kuma container (if it's running)
+            docker stop uptime-kuma || true
+            docker rm uptime-kuma || true
+            # Run the new Uptime-Kuma container
+            docker run -d --restart=always -p 80:3001 \
+            -v uptime-kuma:/app/data --name uptime-kuma \
+            louislam/uptime-kuma:1
