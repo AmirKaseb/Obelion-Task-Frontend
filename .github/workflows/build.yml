@@ -58,7 +58,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.public_ip }}  # Use the public IP from the previous step
-          username: ubuntu            # Replace with your EC2 user (e.g., ubuntu)
+          username: ubuntu            
           key: ${{ secrets.EC2_SSH_KEY }}  # SSH key stored in GitHub secrets
           port: 22
           script: |
