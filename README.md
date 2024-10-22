@@ -122,7 +122,7 @@ Thank you so much! (GitHub Sponsors will be updated manually. OpenCollective spo
 
 ## 🖼 More Screenshots
 
-Light Mode:
+Light Mode :
 
 <img src="https://uptime.kuma.pet/img/light.jpg" width="512" alt="" />
 
