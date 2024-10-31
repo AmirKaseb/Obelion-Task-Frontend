@@ -6,6 +6,11 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read     # Allow read access to the repository contents
+
+
 jobs:
   build-and-deploy:
     # Run this job on an Ubuntu 22.04 virtual machine
