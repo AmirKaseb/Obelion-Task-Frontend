@@ -58,7 +58,7 @@ jobs:
           echo "Public IP: $public_ip"
           echo "public_ip=$public_ip" >> $GITHUB_ENV
 
-      # Step 6: Deploy to the EC2 instance using the public IP
+      # Step 6: Deploy to the EC2 instance using the public IP using SSH Solution
       - name: Deploy to EC2 instance
         uses: appleboy/ssh-action@master
         with:
